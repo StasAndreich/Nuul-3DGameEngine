@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NullEngine.Rendering", "NullEngine.Rendering\NullEngine.Rendering.csproj", "{F7438597-1D66-46BF-8A51-5F9A046FB2C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40FEE5A8-883C-49BB-907D-197531096D53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuulEngine.Graphics", "src\NullEngine.Graphics\NuulEngine.Graphics.csproj", "{E0ED12FF-2356-4708-A5ED-24EB6334264C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F7438597-1D66-46BF-8A51-5F9A046FB2C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F7438597-1D66-46BF-8A51-5F9A046FB2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F7438597-1D66-46BF-8A51-5F9A046FB2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F7438597-1D66-46BF-8A51-5F9A046FB2C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0ED12FF-2356-4708-A5ED-24EB6334264C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0ED12FF-2356-4708-A5ED-24EB6334264C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0ED12FF-2356-4708-A5ED-24EB6334264C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0ED12FF-2356-4708-A5ED-24EB6334264C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0ED12FF-2356-4708-A5ED-24EB6334264C} = {40FEE5A8-883C-49BB-907D-197531096D53}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1FC5EDE9-F9FC-4F1B-96C2-733C09E41B10}
