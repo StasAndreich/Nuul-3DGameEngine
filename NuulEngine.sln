@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40FEE5A8-883C-49BB-907D-197531096D53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuulEngine.Graphics", "src\NullEngine.Graphics\NuulEngine.Graphics.csproj", "{E0ED12FF-2356-4708-A5ED-24EB6334264C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuulEngine.Graphics", "src\NuulEngine.Graphics\NuulEngine.Graphics.csproj", "{E0ED12FF-2356-4708-A5ED-24EB6334264C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
