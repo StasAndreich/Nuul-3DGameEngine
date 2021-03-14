@@ -4,10 +4,10 @@ namespace NuulEngine.Core
 {
     public class GameObject
     {
-        private const string _defaultTag = "Default Tag";
+        private const string DefaultTag = "Default Tag";
 
         public GameObject()
-            : this(_defaultTag)
+            : this(DefaultTag)
         {
         }
 
