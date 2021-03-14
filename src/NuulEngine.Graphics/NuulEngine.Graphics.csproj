@@ -65,10 +65,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Material.cs" />
+    <Compile Include="Infrastructure\MeshObject.cs" />
+    <Compile Include="Infrastructure\Object3D.cs" />
+    <Compile Include="Infrastructure\Structs\MaterialProperties.cs" />
+    <Compile Include="Infrastructure\Structs\PerFrameConstantBuffer.cs" />
+    <Compile Include="Infrastructure\Structs\PerObjectConstantBuffer.cs" />
+    <Compile Include="Infrastructure\Structs\VertexDataStruct.cs" />
+    <Compile Include="Infrastructure\Texture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
