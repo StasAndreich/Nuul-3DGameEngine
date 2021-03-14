@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +17,20 @@ namespace NuulEngine.Core.Utils
         public GameObjectCollection(GameObject owner)
         {
             _owner = owner;
+        }
+
+        public GameObject this[string tag]
+        {
+            get
+            {
+                GameObject result = Find(tag);
+                if (result != null)
+                {
+                    return result;
+                }
+
+                throw new ArgumentOutOfRangeException(nameof(tag), "There is no object with that 'tag'");
+            }
         }
 
         public int Count => _objects.Count + _objects.Sum(o => o.ChildObjects.Count);
