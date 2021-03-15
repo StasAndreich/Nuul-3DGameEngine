@@ -34,6 +34,25 @@ namespace NullEngine.Graphics.Infrastructure
             PrimitiveTopology = primitiveTopology;
             Material = material;
             IsVisible = true;
+
+            _vertexBufferObject = SharpDX.Direct3D11.Buffer
+                .Create(
+                    device: _directX3DGraphics,
+                    bindFlags: BindFlags.VertexBuffer,
+                    data: _vertices,
+                    sizeInBytes: Utilities.SizeOf<VertexDataStruct>() * VerticesCount);
+
+            _indicesBufferObject = SharpDX.Direct3D11.Buffer
+                .Create(
+                    device: _directX3DGraphics,
+                    bindFlags: BindFlags.IndexBuffer,
+                    data: _indices,
+                    sizeInBytes: Utilities.SizeOf<uint>() * IndicesCount);
+
+            VertexBufferBinding = new VertexBufferBinding(
+                buffer: _vertexBufferObject,
+                stride: Utilities.SizeOf<VertexDataStruct>(),
+                offset: 0);
         }
 
         public bool IsVisible { get; set; }
