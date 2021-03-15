@@ -15,7 +15,7 @@ namespace NullEngine.Graphics.Infrastructure
                 ambientK = ambientK,
                 diffuseK = diffuseK,
                 specularK = specularK,
-                specularPower = specularPower
+                specularPower = specularPower,
             };
             Texture = texture;
         }

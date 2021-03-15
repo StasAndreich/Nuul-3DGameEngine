@@ -60,7 +60,7 @@ namespace NullEngine.Graphics.Infrastructure
                 OutputHandle = renderForm.Handle,
                 SampleDescription = _sampleDescription,
                 SwapEffect = SwapEffect.Discard,
-                Usage = Usage.RenderTargetOutput
+                Usage = Usage.RenderTargetOutput,
             };
 
             SharpDX.Direct3D11.Device.CreateWithSwapChain(
@@ -79,7 +79,7 @@ namespace NullEngine.Graphics.Infrastructure
                 IsFrontCounterClockwise = true,
                 IsMultisampleEnabled = true,
                 IsAntialiasedLineEnabled = true,
-                IsDepthClipEnabled = true
+                IsDepthClipEnabled = true,
             };
 
             _rasterizerState = new RasterizerState(_device, _rasterizerStateDescription);
@@ -99,7 +99,7 @@ namespace NullEngine.Graphics.Infrastructure
                 Usage = ResourceUsage.Default,
                 BindFlags = BindFlags.DepthStencil,
                 CpuAccessFlags = CpuAccessFlags.None,
-                OptionFlags = ResourceOptionFlags.None
+                OptionFlags = ResourceOptionFlags.None,
             };
         }
 
