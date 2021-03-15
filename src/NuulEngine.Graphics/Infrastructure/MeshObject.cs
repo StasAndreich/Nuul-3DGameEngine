@@ -10,12 +10,11 @@ namespace NullEngine.Graphics.Infrastructure
     {
         private bool _isDisposed;
 
-        private uint[] _indices;
+        private readonly uint[] _indices;
 
-        private VertexDataStruct[] _vertices;
+        private readonly VertexDataStruct[] _vertices;
 
-        // ???.
-        private DirectX3DGraphics _directX3DGraphics;
+        private readonly DirectX3DGraphics _directX3DGraphics;
 
         private SharpDX.Direct3D11.Buffer _indicesBufferObject;
 
@@ -37,14 +36,14 @@ namespace NullEngine.Graphics.Infrastructure
 
             _vertexBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
-                    device: _directX3DGraphics,
+                    device: _directX3DGraphics.Device,
                     bindFlags: BindFlags.VertexBuffer,
                     data: _vertices,
                     sizeInBytes: Utilities.SizeOf<VertexDataStruct>() * VerticesCount);
 
             _indicesBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
-                    device: _directX3DGraphics,
+                    device: _directX3DGraphics.Device,
                     bindFlags: BindFlags.IndexBuffer,
                     data: _indices,
                     sizeInBytes: Utilities.SizeOf<uint>() * IndicesCount);
