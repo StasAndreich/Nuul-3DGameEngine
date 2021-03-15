@@ -21,9 +21,19 @@ namespace NullEngine.Graphics.Infrastructure
 
         private SharpDX.Direct3D11.Buffer _vertexBufferObject;
 
-        public MeshObject(DirectX3DGraphics directX3DGraphics, Object3D object3D)
+        public MeshObject(
+            DirectX3DGraphics directX3DGraphics, Vector4 position,
+            float yaw, float pitch, float roll,
+            VertexDataStruct[] vertices, uint[] indices,
+            PrimitiveTopology primitiveTopology, Material material)
+            : base(position, yaw, pitch, roll)
         {
-
+            _directX3DGraphics = directX3DGraphics;
+            _vertices = vertices;
+            _indices = indices;
+            PrimitiveTopology = primitiveTopology;
+            Material = material;
+            IsVisible = true;
         }
 
         public bool IsVisible { get; set; }

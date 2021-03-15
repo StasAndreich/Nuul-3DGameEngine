@@ -20,7 +20,7 @@ namespace NullEngine.Graphics.Infrastructure
             _roll = roll;
         }
 
-        public Vector4 Position { get; private set; }
+        public Vector4 Position { get => _position; }
 
         public float Yaw { get => _yaw; }
 
