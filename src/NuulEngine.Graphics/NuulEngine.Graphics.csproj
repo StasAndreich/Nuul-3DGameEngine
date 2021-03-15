@@ -70,9 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera.cs" />
     <Compile Include="Infrastructure\DirectX3DGraphics.cs" />
     <Compile Include="Infrastructure\Material.cs" />
-    <Compile Include="Infrastructure\MeshObject.cs" />
+    <Compile Include="MeshObject.cs" />
     <Compile Include="Infrastructure\Object3D.cs" />
     <Compile Include="Infrastructure\Structs\MaterialProperties.cs" />
     <Compile Include="Infrastructure\Structs\PerFrameConstantBuffer.cs" />
