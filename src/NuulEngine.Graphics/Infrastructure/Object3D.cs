@@ -2,7 +2,7 @@
 
 namespace NullEngine.Graphics.Infrastructure
 {
-    internal class Object3D
+    public class Object3D
     {
         private float _yaw;
 

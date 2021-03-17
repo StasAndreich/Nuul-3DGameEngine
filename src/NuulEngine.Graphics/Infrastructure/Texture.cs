@@ -2,7 +2,7 @@
 using SharpDX;
 using SharpDX.Direct3D11;
 
-namespace NullEngine.Graphics.Infrastructure
+namespace NuulEngine.Graphics.Infrastructure
 {
     internal class Texture : IDisposable
     {

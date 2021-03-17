@@ -1,7 +1,7 @@
 ﻿using NullEngine.Graphics.Infrastructure;
 using SharpDX;
 
-namespace NullEngine.Graphics
+namespace NuulEngine.Graphics
 {
     internal class Camera : Object3D
     {

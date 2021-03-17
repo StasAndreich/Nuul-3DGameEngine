@@ -1,7 +1,7 @@
 ﻿using NullEngine.Graphics.Infrastructure.Structs;
 using SharpDX;
 
-namespace NullEngine.Graphics.Infrastructure
+namespace NuulEngine.Graphics.Infrastructure
 {
     internal class Material
     {

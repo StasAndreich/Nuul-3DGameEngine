@@ -4,9 +4,9 @@ using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 
-namespace NullEngine.Graphics.Infrastructure
+namespace NuulEngine.Graphics.Infrastructure
 {
-    internal class MeshObject : Object3D, IDisposable
+    public class MeshObject : Object3D, IDisposable
     {
         private bool _isDisposed;
 

@@ -1,4 +1,4 @@
-﻿namespace NullEngine.Graphics.Infrastructure
+﻿namespace NuulEngine.Graphics.Infrastructure
 {
     internal enum LightSourceType
     {

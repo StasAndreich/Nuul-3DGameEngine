@@ -5,7 +5,7 @@ using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 
-namespace NullEngine.Graphics.Infrastructure
+namespace NuulEngine.Graphics.Infrastructure
 {
     internal class DirectX3DGraphics : IDisposable
     {

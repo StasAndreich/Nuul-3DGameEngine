@@ -7,7 +7,7 @@ using SharpDX.DXGI;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
 
-namespace NullEngine.Graphics
+namespace NuulEngine.Graphics
 {
     internal class GraphicsRenderer : IDisposable
     {
