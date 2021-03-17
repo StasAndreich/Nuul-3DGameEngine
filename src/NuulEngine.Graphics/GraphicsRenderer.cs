@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using NullEngine.Graphics.Infrastructure;
-using NullEngine.Graphics.Infrastructure.Structs;
+using NuulEngine.Graphics.Infrastructure;
+using NuulEngine.Graphics.Infrastructure.Structs;
 using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.D3DCompiler;

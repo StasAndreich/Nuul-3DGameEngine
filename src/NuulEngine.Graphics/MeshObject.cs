@@ -1,5 +1,6 @@
 ﻿using System;
-using NullEngine.Graphics.Infrastructure.Structs;
+using NuulEngine.Graphics.Infrastructure;
+using NuulEngine.Graphics.Infrastructure.Structs;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
