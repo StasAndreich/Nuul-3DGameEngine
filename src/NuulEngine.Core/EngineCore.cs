@@ -12,9 +12,9 @@ namespace NuulEngine.Core
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
-        private long _previousTickCount;
+        private long _lastTickCount;
 
-        private long _timeElapsed;
+        private double _timeElapsed;
         private bool _isDisposed;
 
         public EngineCore()
@@ -27,6 +27,26 @@ namespace NuulEngine.Core
             // Initialize inner components here.
         }
 
+        private void CoreLoop()
+        {
+            var currentTickCount = _stopwatch.ElapsedTicks;
+            var deltaTime = (currentTickCount - _lastTickCount)
+                / (double)TimeSpan.TicksPerSecond;
+
+            _lastTickCount = currentTickCount;
+
+            _timeElapsed += deltaTime;
+            if (_timeElapsed >= FixedUpdateDeltaTime)
+            {
+                // Put there Fixed update code.
+            }
+
+            foreach (var item in )
+            {
+                // Put there Update code.
+            }
+        }
+
         private void Dispose(bool disposing)
         {
             if (!_isDisposed)
@@ -36,8 +56,6 @@ namespace NuulEngine.Core
                     // TODO: dispose managed state (managed objects)
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
                 _isDisposed = true;
             }
         }
@@ -51,7 +69,6 @@ namespace NuulEngine.Core
 
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
