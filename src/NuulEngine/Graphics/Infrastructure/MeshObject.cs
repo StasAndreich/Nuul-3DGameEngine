@@ -11,10 +11,6 @@ namespace NuulEngine.Graphics.Infrastructure
     {
         private bool _isDisposed;
 
-        private readonly uint[] _indices;
-
-        private readonly VertexDataStruct[] _vertices;
-
         private readonly DirectX3DGraphics _directX3DGraphics;
 
         private SharpDX.Direct3D11.Buffer _indicesBufferObject;
@@ -24,30 +20,27 @@ namespace NuulEngine.Graphics.Infrastructure
         public MeshObject(
             DirectX3DGraphics directX3DGraphics, Vector4 position,
             float yaw, float pitch, float roll,
-            VertexDataStruct[] vertices, uint[] indices,
-            PrimitiveTopology primitiveTopology, Material material)
+            Mesh mesh, Material material)
             : base(position, yaw, pitch, roll)
         {
             _directX3DGraphics = directX3DGraphics;
-            _vertices = vertices;
-            _indices = indices;
-            PrimitiveTopology = primitiveTopology;
             Material = material;
+            Mesh = mesh;
             IsVisible = true;
 
             _vertexBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
                     device: _directX3DGraphics.Device,
                     bindFlags: BindFlags.VertexBuffer,
-                    data: _vertices,
-                    sizeInBytes: Utilities.SizeOf<VertexDataStruct>() * VerticesCount);
+                    data: mesh.Vertices,
+                    sizeInBytes: Utilities.SizeOf<VertexDataStruct>() * mesh.VerticesCount);
 
             _indicesBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
                     device: _directX3DGraphics.Device,
                     bindFlags: BindFlags.IndexBuffer,
-                    data: _indices,
-                    sizeInBytes: Utilities.SizeOf<uint>() * IndicesCount);
+                    data: mesh.Indices,
+                    sizeInBytes: Utilities.SizeOf<uint>() * mesh.IndicesCount);
 
             VertexBufferBinding = new VertexBufferBinding(
                 buffer: _vertexBufferObject,
@@ -57,10 +50,6 @@ namespace NuulEngine.Graphics.Infrastructure
 
         public bool IsVisible { get; set; }
 
-        public int VerticesCount { get => _vertices.Length; }
-
-        public int IndicesCount { get => _indices.Length; }
-
         public SharpDX.Direct3D11.Buffer IndicesBufferObject { get => _indicesBufferObject; }
 
         public SharpDX.Direct3D11.Buffer VertexBufferObject { get => _vertexBufferObject; }
@@ -69,7 +58,7 @@ namespace NuulEngine.Graphics.Infrastructure
 
         public Material Material { get; private set; }
 
-        public PrimitiveTopology PrimitiveTopology { get; private set; }
+        public Mesh Mesh { get; private set; }
 
         protected virtual void Dispose(bool disposing)
         {

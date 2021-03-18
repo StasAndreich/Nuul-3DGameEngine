@@ -1,4 +1,4 @@
-﻿using NuulEngine.Core.Components.ComponentContracts;
+﻿using NuulEngine.Components.ComponentContracts;
 
 namespace NuulEngine.Core.Components
 {

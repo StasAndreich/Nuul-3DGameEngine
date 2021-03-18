@@ -4,7 +4,7 @@ using SharpDX.Direct3D11;
 
 namespace NuulEngine.Graphics.Infrastructure
 {
-    internal class Texture : IDisposable
+    public sealed class Texture : IDisposable
     {
         private bool _isDisposed;
 
@@ -31,7 +31,7 @@ namespace NuulEngine.Graphics.Infrastructure
 
         public ShaderResourceView ShaderResourceView { get => _shaderResourceView; }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!_isDisposed)
             {

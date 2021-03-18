@@ -70,12 +70,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NuulEngine.Core\NuulEngine.Core.csproj">
-      <Project>{d4a65a00-1cc0-45a7-86aa-e0e1c4201c3b}</Project>
-      <Name>NuulEngine.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

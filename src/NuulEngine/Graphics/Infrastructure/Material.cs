@@ -3,7 +3,7 @@ using SharpDX;
 
 namespace NuulEngine.Graphics.Infrastructure
 {
-    internal class Material
+    public sealed class Material
     {
         public Material(Texture texture, Vector3 emmisiveK,
             Vector3 ambientK, Vector3 diffuseK,
@@ -20,7 +20,7 @@ namespace NuulEngine.Graphics.Infrastructure
             Texture = texture;
         }
 
-        public MaterialProperties MaterialProperties { get; }
+        internal MaterialProperties MaterialProperties { get; }
 
         public Texture Texture { get; }
     }

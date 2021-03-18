@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using SharpDX;
 
-namespace NuulEngine.Graphics.Infrastructure.Structs
+namespace NuulEngine.Infrastructure.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct MaterialProperties
