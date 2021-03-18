@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NullEngine.Graphics")]
+[assembly: AssemblyTitle("NuulEngine")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NullEngine.Graphics")]
+[assembly: AssemblyProduct("NuulEngine")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e0ed12ff-2356-4708-a5ed-24eb6334264c")]
+[assembly: Guid("4eab4380-de1a-4bc5-b64b-5bbab900c10a")]
 
 // Version information for an assembly consists of the following four values:
 //

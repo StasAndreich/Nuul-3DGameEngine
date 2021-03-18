@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E0ED12FF-2356-4708-A5ED-24EB6334264C}</ProjectGuid>
+    <ProjectGuid>{4EAB4380-DE1A-4BC5-B64B-5BBAB900C10A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NuulEngine</RootNamespace>
-    <AssemblyName>NullEngine</AssemblyName>
+    <AssemblyName>NuulEngine</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,32 +70,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\Infrastructure\Camera.cs" />
-    <Compile Include="Components\Component.cs" />
-    <Compile Include="Components\ComponentContracts\IComponent.cs" />
+    <Compile Include="Core\Components\Component.cs" />
+    <Compile Include="Core\Components\IComponent.cs" />
     <Compile Include="Core\EngineCore.cs" />
     <Compile Include="Core\GameObject.cs" />
-    <Compile Include="Graphics\Infrastructure\DirectX3DGraphics.cs" />
+    <Compile Include="Core\Scene.cs" />
+    <Compile Include="Core\Utilities\GameObjectCollection.cs" />
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\DirectX3DGraphics.cs" />
+    <Compile Include="Graphics\GraphicsRenderer.cs" />
     <Compile Include="Graphics\Infrastructure\LightSourceType.cs" />
     <Compile Include="Graphics\Infrastructure\Material.cs" />
     <Compile Include="Graphics\Infrastructure\Mesh.cs" />
+    <Compile Include="Graphics\Infrastructure\MeshObject.cs" />
     <Compile Include="Graphics\Infrastructure\Object3D.cs" />
     <Compile Include="Graphics\Infrastructure\Structs\MaterialProperties.cs" />
     <Compile Include="Graphics\Infrastructure\Structs\PerFrameConstantBuffer.cs" />
     <Compile Include="Graphics\Infrastructure\Structs\PerObjectConstantBuffer.cs" />
     <Compile Include="Graphics\Infrastructure\Structs\VertexDataStruct.cs" />
     <Compile Include="Graphics\Infrastructure\Texture.cs" />
-    <Compile Include="Graphics\Infrastructure\MeshObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Graphics\Infrastructure\GraphicsRenderer.cs" />
-    <Compile Include="Core\Scene.cs" />
-    <Compile Include="Utils\GameObjectCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,4 @@
-﻿using NuulEngine.Components.ComponentContracts;
-
-namespace NuulEngine.Core.Components
+﻿namespace NuulEngine.Core.Components
 {
     public abstract class Component : IComponent
     {
@@ -14,3 +12,4 @@ namespace NuulEngine.Core.Components
         public abstract void CallComponent(double deltaTime);
     }
 }
+
