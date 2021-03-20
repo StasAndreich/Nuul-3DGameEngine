@@ -94,6 +94,7 @@
     <Compile Include="Graphics\Infrastructure\Structs\PerObjectConstantBuffer.cs" />
     <Compile Include="Graphics\Infrastructure\Structs\VertexDataStruct.cs" />
     <Compile Include="Graphics\Infrastructure\Texture.cs" />
+    <Compile Include="Graphics\prototypeRenderer.cs" />
     <Compile Include="Graphics\Utilities\Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

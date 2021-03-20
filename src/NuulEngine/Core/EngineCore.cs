@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using NuulEngine.Graphics;
+using SharpDX.Windows;
 
 namespace NuulEngine.Core
 {
@@ -12,22 +14,30 @@ namespace NuulEngine.Core
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
+        private bool _isDisposed;
+
         private long _lastTickCount;
 
         private double _timeElapsed;
-        private bool _isDisposed;
+
+        private prototypeRenderer _renderer;
 
         public EngineCore()
         {
-
+            _renderer = new prototypeRenderer(
+                CreateConfiguredRenderForm((form) =>
+                    form.Text = "App"));
         }
 
+        /// <summary>
+        /// Starts main game rendering loop.
+        /// </summary>
         public void Run()
         {
-            // Initialize inner components here.
+            _renderer.RunRenderLoop(RenderLoopCallback);
         }
 
-        private void CoreLoop()
+        private void RenderLoopCallback()
         {
             var currentTickCount = _stopwatch.ElapsedTicks;
             var deltaTime = (currentTickCount - _lastTickCount)
@@ -45,6 +55,15 @@ namespace NuulEngine.Core
             {
                 // Put there Update code.
             }
+
+            _renderer.RenderScene();
+        }
+
+        internal RenderForm CreateConfiguredRenderForm(Action<RenderForm> configurateRenderForm)
+        {
+            var renderForm = new RenderForm();
+            configurateRenderForm(renderForm);
+            return renderForm;
         }
 
         private void Dispose(bool disposing)
