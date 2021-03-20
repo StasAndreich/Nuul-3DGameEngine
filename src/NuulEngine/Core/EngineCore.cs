@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using NuulEngine.Graphics;
+using NuulEngine.Core.Utilities;
 using SharpDX.Windows;
 
 namespace NuulEngine.Core
@@ -20,13 +21,16 @@ namespace NuulEngine.Core
 
         private double _timeElapsed;
 
+        private InputProvider _inputProvider;
+
         private prototypeRenderer _renderer;
 
         public EngineCore()
         {
-            _renderer = new prototypeRenderer(
-                CreateConfiguredRenderForm((form) =>
-                    form.Text = "App"));
+            var renderForm = CreateConfiguredRenderForm((form) =>
+                    form.Text = "App");
+            _renderer = new prototypeRenderer(renderForm);
+            _inputProvider = new InputProvider(renderForm);
         }
 
         /// <summary>
@@ -56,7 +60,7 @@ namespace NuulEngine.Core
                 // Put there Update code.
             }
 
-            _renderer.RenderScene();
+            //_renderer.RenderScene();
         }
 
         internal RenderForm CreateConfiguredRenderForm(Action<RenderForm> configurateRenderForm)
