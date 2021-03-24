@@ -5,7 +5,6 @@ using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
-using NuulEngine.Infrastructure.Structs;
 
 namespace NuulEngine.Graphics
 {

@@ -1,22 +1,41 @@
-﻿using NuulEngine.Graphics.Infrastructure;
+﻿using System;
+using NuulEngine.Graphics.Infrastructure;
 using SharpDX;
 
 namespace NuulEngine.Graphics
 {
-    internal class Camera : Object3D
+    internal sealed class Camera : Object3D
     {
-        public Camera(Vector4 position,
+        private readonly Matrix _projectionMatrix;
+
+        public Camera(CameraType cameraType, Vector4 position,
             float yaw = 0, float pitch = 0, float roll = 0,
             float fov = MathUtil.PiOverFour, float aspectRatio = 1)
             : base(position, yaw, pitch, roll)
         {
             AspectRatio = aspectRatio;
             Fov = fov;
+            _projectionMatrix = CreateProjectionMatrix(cameraType);
         }
 
         public float AspectRatio { get; set; }
 
         public float Fov { get; set; }
+
+        private Matrix CreateProjectionMatrix(CameraType cameraType)
+        {
+            switch (cameraType)
+            {
+                case CameraType.Perspective:
+                    return Matrix.PerspectiveFovLH(
+                        fov: Fov,
+                        aspect: AspectRatio,
+                        znear: 0.1f,
+                        zfar: 100.0f);
+                default:
+                    throw new ArgumentException(nameof(cameraType), "Such type is unsupported.");
+            }
+        }
 
         public void MoveForZ(float direction)
         {
@@ -34,11 +53,7 @@ namespace NuulEngine.Graphics
 
         public Matrix GetPojectionMatrix()
         {
-            return Matrix.PerspectiveFovLH(
-                fov: Fov,
-                aspect: AspectRatio,
-                znear: 0.1f,
-                zfar: 100.0f);
+            return _projectionMatrix;
         }
 
         public Matrix GetViewMatrix()
