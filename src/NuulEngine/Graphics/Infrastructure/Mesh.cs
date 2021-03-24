@@ -5,7 +5,7 @@ namespace NuulEngine.Graphics.Infrastructure
 {
     public sealed class Mesh
     {
-        public Mesh(VertexDataStruct[] vertices, uint[] indices,
+        public Mesh(VertexData[] vertices, uint[] indices,
             PrimitiveTopology primitiveTopology)
         {
             Vertices = vertices;
@@ -17,7 +17,7 @@ namespace NuulEngine.Graphics.Infrastructure
 
         public int IndicesCount { get => Indices.Length; }
 
-        public VertexDataStruct[] Vertices { get; private set; }
+        public VertexData[] Vertices { get; private set; }
 
         public int VerticesCount { get => Vertices.Length; }
 

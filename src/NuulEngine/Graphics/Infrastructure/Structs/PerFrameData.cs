@@ -4,7 +4,7 @@ using SharpDX;
 namespace NuulEngine.Graphics.Infrastructure.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct PerFrameConstantBuffer
+    internal struct PerFrameData
     {
         public float time;
 

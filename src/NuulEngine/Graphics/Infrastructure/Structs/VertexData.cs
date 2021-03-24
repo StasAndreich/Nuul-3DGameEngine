@@ -4,7 +4,7 @@ using SharpDX;
 namespace NuulEngine.Graphics.Infrastructure.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct VertexDataStruct
+    internal struct VertexData
     {
         public Vector4 position;
 

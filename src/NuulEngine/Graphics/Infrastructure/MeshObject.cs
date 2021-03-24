@@ -33,7 +33,7 @@ namespace NuulEngine.Graphics.Infrastructure
                     device: _directX3DGraphics.Device,
                     bindFlags: BindFlags.VertexBuffer,
                     data: mesh.Vertices,
-                    sizeInBytes: Utilities.SizeOf<VertexDataStruct>() * mesh.VerticesCount);
+                    sizeInBytes: Utilities.SizeOf<VertexData>() * mesh.VerticesCount);
 
             _indicesBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
@@ -44,7 +44,7 @@ namespace NuulEngine.Graphics.Infrastructure
 
             VertexBufferBinding = new VertexBufferBinding(
                 buffer: _vertexBufferObject,
-                stride: Utilities.SizeOf<VertexDataStruct>(),
+                stride: Utilities.SizeOf<VertexData>(),
                 offset: 0);
         }
 

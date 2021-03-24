@@ -4,7 +4,7 @@ using SharpDX;
 namespace NuulEngine.Graphics.Infrastructure.Structs
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal struct PerObjectConstantBuffer
+    internal struct PerObjectData
     {
         public Matrix worldViewProjectionMatrix;
 

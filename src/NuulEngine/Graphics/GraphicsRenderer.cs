@@ -29,9 +29,9 @@ namespace NuulEngine.Graphics
 
         private InputLayout _inputLayout;
 
-        private PerFrameConstantBuffer _perFrameConstantBuffer;
+        private PerFrameData _perFrameConstantBuffer;
 
-        private PerObjectConstantBuffer _perObjectConstantBuffer;
+        private PerObjectData _perObjectConstantBuffer;
 
         private VertexShader _vertexShader;
 
@@ -74,7 +74,7 @@ namespace NuulEngine.Graphics
         {
             _perFrameConstantBufferObject = new SharpDX.Direct3D11.Buffer(
                 _device,
-                Utilities.SizeOf<PerFrameConstantBuffer>(),
+                Utilities.SizeOf<PerFrameData>(),
                 ResourceUsage.Dynamic,
                 BindFlags.ConstantBuffer,
                 CpuAccessFlags.Write,
@@ -83,7 +83,7 @@ namespace NuulEngine.Graphics
 
             _perObjectConstantBufferObject = new SharpDX.Direct3D11.Buffer(
                 _device,
-                Utilities.SizeOf<PerObjectConstantBuffer>(),
+                Utilities.SizeOf<PerObjectData>(),
                 ResourceUsage.Dynamic,
                 BindFlags.ConstantBuffer,
                 CpuAccessFlags.Write,

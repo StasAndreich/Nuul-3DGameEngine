@@ -20,7 +20,7 @@ namespace NuulEngine.Graphics.GraphicsUtilities
             foreach (Assimp.Mesh mesh in meshes)
             {
                 var indices = new List<uint>();
-                var vertices = new List<VertexDataStruct>();
+                var vertices = new List<VertexData>();
 
                 for (int i = 0, j = 0;
                     i < mesh.Vertices.Count
@@ -31,7 +31,7 @@ namespace NuulEngine.Graphics.GraphicsUtilities
                     var texCoords = mesh.TextureCoordinateChannels[0][j];
                     var normals = mesh.Normals[i];
 
-                    vertices.Add(new VertexDataStruct
+                    vertices.Add(new VertexData
                     {
                         position = new Vector4(vertex.X, vertex.Y, vertex.Z, 1),
                         texCoord = new Vector2(texCoords.X, texCoords.Z),
