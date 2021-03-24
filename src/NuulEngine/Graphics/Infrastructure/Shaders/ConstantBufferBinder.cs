@@ -4,7 +4,7 @@ using SharpDX.Direct3D11;
 
 namespace NuulEngine.Graphics.Infrastructure.Shaders
 {
-    internal abstract class ConstantBuffer<TStruct> : IDisposable
+    internal abstract class ConstantBufferBinder<TStruct> : IDisposable
         where TStruct : struct
     {
         private bool _isDisposed;
@@ -19,7 +19,7 @@ namespace NuulEngine.Graphics.Infrastructure.Shaders
 
         private SharpDX.Direct3D11.Buffer _buffer;
 
-        public ConstantBuffer(Device device, DeviceContext deviceContext,
+        public ConstantBufferBinder(Device device, DeviceContext deviceContext,
             CommonShaderStage commonShaderStage, int subresourse, int slot)
         {
             _deviceContext = deviceContext;
