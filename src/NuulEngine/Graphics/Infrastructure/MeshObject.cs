@@ -7,18 +7,18 @@ using SharpDX.Direct3D11;
 
 namespace NuulEngine.Graphics.Infrastructure
 {
-    public class MeshObject : Object3D, IDisposable
+    internal class MeshObject : Object3D, IDisposable
     {
         private bool _isDisposed;
 
-        private readonly DirectX3DGraphics _directX3DGraphics;
+        private readonly Direct3DGraphicsContext _directX3DGraphics;
 
         private SharpDX.Direct3D11.Buffer _indicesBufferObject;
 
         private SharpDX.Direct3D11.Buffer _vertexBufferObject;
 
         public MeshObject(
-            DirectX3DGraphics directX3DGraphics, Vector4 position,
+            Direct3DGraphicsContext directX3DGraphics, Vector4 position,
             float yaw, float pitch, float roll,
             Mesh mesh, Material material)
             : base(position, yaw, pitch, roll)

@@ -3,7 +3,7 @@ using SharpDX.Direct3D;
 
 namespace NuulEngine.Graphics.Infrastructure
 {
-    public sealed class Mesh
+    internal sealed class Mesh
     {
         public Mesh(VertexData[] vertices, uint[] indices,
             PrimitiveTopology primitiveTopology)

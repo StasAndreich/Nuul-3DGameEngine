@@ -11,7 +11,7 @@ namespace NuulEngine.Graphics
         // Not init.
         private Camera _camera;
 
-        private DirectX3DGraphics _directX3DGraphics;
+        private Direct3DGraphicsContext _directX3DGraphics;
 
         //private DirectX2DGraphics _directX2DGraphics;
 
@@ -25,7 +25,7 @@ namespace NuulEngine.Graphics
         {
             _renderForm = renderForm;
             _renderForm.UserResized += OnRenderFormResized;
-            _directX3DGraphics = new DirectX3DGraphics(_renderForm);
+            _directX3DGraphics = new Direct3DGraphicsContext(_renderForm);
             _graphicsRenderer = new GraphicsRenderer(_directX3DGraphics);
         }
 

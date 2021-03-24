@@ -7,7 +7,7 @@ using SharpDX.Windows;
 
 namespace NuulEngine.Graphics.Infrastructure
 {
-    internal class DirectX3DGraphics : IDisposable
+    internal sealed class Direct3DGraphicsContext : IDisposable
     {
         private bool _isDisposed;
 
@@ -41,7 +41,7 @@ namespace NuulEngine.Graphics.Infrastructure
 
         private Texture2DDescription _depthStencilBufferDescription;
 
-        public DirectX3DGraphics(RenderForm renderForm)
+        public Direct3DGraphicsContext(RenderForm renderForm)
         {
             _renderForm = renderForm;
             _sampleDescription = new SampleDescription(
