@@ -4,7 +4,7 @@ using NuulEngine.Graphics.Infrastructure.Structs;
 using SharpDX;
 using SharpDX.Direct3D;
 
-namespace NuulEngine.Graphics.Utilities
+namespace NuulEngine.Graphics.GraphicsUtilities
 {
     internal sealed class Loader
     {

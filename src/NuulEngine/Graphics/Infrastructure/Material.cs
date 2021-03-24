@@ -1,4 +1,4 @@
-﻿using NuulEngine.Graphics.Infrastructure.Structs;
+﻿using NuulEngine.Infrastructure.Structs;
 using SharpDX;
 
 namespace NuulEngine.Graphics.Infrastructure
