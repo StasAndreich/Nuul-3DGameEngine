@@ -4,22 +4,20 @@ using SharpDX.Direct3D11;
 
 namespace NuulEngine.Graphics.Infrastructure.Shaders
 {
-    internal class ConstantBuffer<TStruct> : IDisposable
+    internal abstract class ConstantBuffer<TStruct> : IDisposable
         where TStruct : struct
     {
         private bool _isDisposed;
 
-        private int _subresourse;
+        private readonly int _subresourse;
         
-        private int _slot;
+        private readonly int _slot;
 
-        private TStruct _structData;
+        private readonly CommonShaderStage _commonShaderStage;
+
+        private readonly DeviceContext _deviceContext;
 
         private SharpDX.Direct3D11.Buffer _buffer;
-
-        private CommonShaderStage _commonShaderStage;
-
-        private DeviceContext _deviceContext;
 
         public ConstantBuffer(Device device, DeviceContext deviceContext,
             CommonShaderStage commonShaderStage, int subresourse, int slot)
@@ -38,12 +36,12 @@ namespace NuulEngine.Graphics.Infrastructure.Shaders
                 structureByteStride: 0);
         }
 
-        protected void Update()
+        public void Update(TStruct data)
         {
             _deviceContext.MapSubresource(_buffer, MapMode.WriteDiscard,
                 MapFlags.None, out DataStream dataStream);
 
-            dataStream.Write(_structData);
+            dataStream.Write(data);
             _deviceContext.UnmapSubresource(_buffer, _subresourse);
             _commonShaderStage.SetConstantBuffer(_slot, _buffer);
         }
