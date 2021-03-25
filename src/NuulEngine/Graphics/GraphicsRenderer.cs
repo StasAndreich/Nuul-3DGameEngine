@@ -10,7 +10,7 @@ using SharpDX.Mathematics.Interop;
 
 namespace NuulEngine.Graphics
 {
-    internal class GraphicsRenderer : IDisposable
+    internal sealed class GraphicsRenderer : IDisposable
     {
         private bool _isDisposed;
 
@@ -234,7 +234,7 @@ namespace NuulEngine.Graphics
                 new InputLayout(_directX3DGraphicsContext.Device, shaderSignature, inputElements);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!_isDisposed)
             {

@@ -17,19 +17,9 @@ namespace NuulEngine.Graphics.Infrastructure
 
         private SharpDX.Direct3D11.Device _device;
 
-        private DeviceContext _deviceContext;
-
-        private Factory _factory;
-
-        private RasterizerState _rasterizerState;
-
-        private RasterizerStateDescription _rasterizerStateDescription;
-
         private readonly RenderForm _renderForm;
 
         private RenderTargetView _renderTargetView;
-
-        private SampleDescription _sampleDescription;
 
         private SwapChain _swapChain;
 
@@ -44,7 +34,7 @@ namespace NuulEngine.Graphics.Infrastructure
         public Direct3DGraphicsContext(RenderForm renderForm)
         {
             _renderForm = renderForm;
-            _sampleDescription = new SampleDescription(
+            var sampleDescription = new SampleDescription(
                 count: 4,
                 quality: (int) StandardMultisampleQualityLevels.StandardMultisamplePattern);
 
@@ -58,7 +48,7 @@ namespace NuulEngine.Graphics.Infrastructure
                     format: Format.R8G8B8A8_UNorm),
                 IsWindowed = true,
                 OutputHandle = renderForm.Handle,
-                SampleDescription = _sampleDescription,
+                SampleDescription = sampleDescription,
                 SwapEffect = SwapEffect.Discard,
                 Usage = Usage.RenderTargetOutput,
             };
@@ -70,23 +60,8 @@ namespace NuulEngine.Graphics.Infrastructure
                 out _device,
                 out _swapChain);
 
-            _deviceContext = _device.ImmediateContext;
-
-            _rasterizerStateDescription = new RasterizerStateDescription
-            {
-                FillMode = FillMode.Solid,
-                CullMode = CullMode.Back,
-                IsFrontCounterClockwise = true,
-                IsMultisampleEnabled = true,
-                IsAntialiasedLineEnabled = true,
-                IsDepthClipEnabled = true,
-            };
-
-            _rasterizerState = new RasterizerState(_device, _rasterizerStateDescription);
-            _deviceContext.Rasterizer.State = _rasterizerState;
-
-            _factory = _swapChain.GetParent<Factory>();
-            _factory.MakeWindowAssociation(_renderForm.Handle, WindowAssociationFlags.IgnoreAll);
+            SetDeviceRasterizerState();
+            MakeAssosiationWithRenderForm();
 
             _depthStencilBufferDescription = new Texture2DDescription
             {
@@ -95,7 +70,7 @@ namespace NuulEngine.Graphics.Infrastructure
                 MipLevels = 1,
                 Width = _renderForm.ClientSize.Width,
                 Height = _renderForm.ClientSize.Height,
-                SampleDescription = _sampleDescription,
+                SampleDescription = sampleDescription,
                 Usage = ResourceUsage.Default,
                 BindFlags = BindFlags.DepthStencil,
                 CpuAccessFlags = CpuAccessFlags.None,
@@ -118,9 +93,22 @@ namespace NuulEngine.Graphics.Infrastructure
 
         public SharpDX.Direct3D11.Device Device { get => _device; }
 
-        public DeviceContext DeviceContext { get => _deviceContext; }
+        public DeviceContext DeviceContext { get => _device.ImmediateContext; }
 
         public SwapChain SwapChain { get => _swapChain; }
+
+        public void ClearBuffers(Color backgroundColor)
+        {
+            _device.ImmediateContext.ClearDepthStencilView(
+                depthStencilViewRef: _depthStencilView,
+                clearFlags: DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil,
+                depth: 1f,
+                stencil: 0);
+
+            _device.ImmediateContext.ClearRenderTargetView(
+                renderTargetViewRef: _renderTargetView,
+                colorRGBA: backgroundColor);
+        }
 
         public void Resize()
         {
@@ -136,8 +124,8 @@ namespace NuulEngine.Graphics.Infrastructure
                 newFormat: Format.Unknown,
                 swapChainFlags: SwapChainFlags.None);
 
-            _backBuffer = Texture2D.FromSwapChain<Texture2D>(_swapChain, 0);
-
+            _backBuffer = SharpDX.Direct3D11.Resource
+                .FromSwapChain<Texture2D>(_swapChain, 0);
             _renderTargetView = new RenderTargetView(_device, _backBuffer);
 
             _depthStencilBufferDescription.Width = _renderForm.ClientSize.Width;
@@ -145,7 +133,7 @@ namespace NuulEngine.Graphics.Infrastructure
             _depthStencilBuffer = new Texture2D(_device, _depthStencilBufferDescription);
             _depthStencilView = new DepthStencilView(_device, _depthStencilBuffer);
 
-            _deviceContext.Rasterizer.SetViewport(
+            _device.ImmediateContext.Rasterizer.SetViewport(
                 new Viewport(
                     x: 0,
                     y: 0,
@@ -154,23 +142,32 @@ namespace NuulEngine.Graphics.Infrastructure
                     minDepth: 0f,
                     maxDepth: 1f));
 
-            _deviceContext.OutputMerger.SetTargets(_depthStencilView, _renderTargetView);
+            _device.ImmediateContext.OutputMerger.SetTargets(_depthStencilView, _renderTargetView);
         }
 
-        public void ClearBuffers(Color backgroundColor)
+        private void MakeAssosiationWithRenderForm()
         {
-            _deviceContext.ClearDepthStencilView(
-                depthStencilViewRef: _depthStencilView,
-                clearFlags: DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil,
-                depth: 1f,
-                stencil: 0);
-
-            _deviceContext.ClearRenderTargetView(
-                renderTargetViewRef: _renderTargetView,
-                colorRGBA: backgroundColor);
+            _swapChain.GetParent<Factory>()
+                .MakeWindowAssociation(_renderForm.Handle, WindowAssociationFlags.IgnoreAll);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void SetDeviceRasterizerState()
+        {
+            var rasterizerStateDescription = new RasterizerStateDescription
+            {
+                FillMode = FillMode.Solid,
+                CullMode = CullMode.Back,
+                IsFrontCounterClockwise = true,
+                IsMultisampleEnabled = true,
+                IsAntialiasedLineEnabled = true,
+                IsDepthClipEnabled = true,
+            };
+
+            _device.ImmediateContext.Rasterizer.State =
+                new RasterizerState(_device, rasterizerStateDescription);
+        }
+
+        private void Dispose(bool disposing)
         {
             if (!_isDisposed)
             {
@@ -180,9 +177,6 @@ namespace NuulEngine.Graphics.Infrastructure
                     Utilities.Dispose(ref _depthStencilBuffer);
                     Utilities.Dispose(ref _renderTargetView);
                     Utilities.Dispose(ref _backBuffer);
-                    Utilities.Dispose(ref _factory);
-                    Utilities.Dispose(ref _rasterizerState);
-                    Utilities.Dispose(ref _deviceContext);
                     Utilities.Dispose(ref _swapChain);
                     Utilities.Dispose(ref _device);
                 }
