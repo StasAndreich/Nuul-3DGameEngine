@@ -23,8 +23,6 @@ namespace NuulEngine.Graphics
         private MaterialPropertiesConstantBufferBinder _materialPropertiesConstantBufferBinder;
         
 
-        private InputLayout _inputLayout;
-
         private PerFrameData _perFrameConstantBuffer;
         private PerObjectData _perObjectConstantBuffer;
 
@@ -33,8 +31,6 @@ namespace NuulEngine.Graphics
 
         private Material _currentMaterial;
         private Texture _currentTexture;
-
-        private ShaderSignature _shaderSignature;
 
         private SamplerState _anisotropicSampler;
         private SamplerState _linearSampler;
@@ -46,17 +42,20 @@ namespace NuulEngine.Graphics
         {
             _directX3DGraphicsContext = directX3DGraphics;
             
-            MarkUpInputLayout();
-            InitializeVertexShader("shader");
+            InitializeVertexShader("shader", out ShaderSignature shaderSignature);
             InitializePixelShader("shader");
+            MarkUpInputLayout(shaderSignature);
             SetRasterizerState();
             InitializeSamplers();
         }
 
+        [Obsolete("Use carefully", false)]
         public SamplerState AnisotropicSampler { get => _anisotropicSampler; }
 
+        [Obsolete("Use carefully", false)]
         public SamplerState LinearSampler { get => _linearSampler; }
 
+        [Obsolete("Use carefully", false)]
         public SamplerState PointSampler { get => _pointSampler; }
 
         internal void BeginRender()
@@ -172,7 +171,7 @@ namespace NuulEngine.Graphics
                 _rasterizerStateDescription);
         }
 
-        private void InitializeVertexShader(string fileName)
+        private void InitializeVertexShader(string fileName, out ShaderSignature shaderSignature)
         {
             CompilationResult vertexShaderByteCode = ShaderBytecode
                 .CompileFromFile(fileName, "vertexShader", "vs_5_0",
@@ -180,7 +179,7 @@ namespace NuulEngine.Graphics
 
             _vertexShader = new VertexShader(_directX3DGraphicsContext.Device,
                 vertexShaderByteCode, new ClassLinkage(_directX3DGraphicsContext.Device));
-            _shaderSignature = ShaderSignature.GetInputSignature(vertexShaderByteCode);
+            shaderSignature = ShaderSignature.GetInputSignature(vertexShaderByteCode);
             Utilities.Dispose(ref vertexShaderByteCode);
         }
 
@@ -222,7 +221,7 @@ namespace NuulEngine.Graphics
         /// Sets an input-layout object to describe
         /// the input-buffer data for the input-assembler stage.
         /// </summary>
-        private void MarkUpInputLayout()
+        private void MarkUpInputLayout(ShaderSignature shaderSignature)
         {
             InputElement[] inputElements = new[]
             {
@@ -232,7 +231,7 @@ namespace NuulEngine.Graphics
                 new InputElement("TEXCOORD", 0, Format.R32G32_Float, 48, 0)
             };
             _directX3DGraphicsContext.DeviceContext.InputAssembler.InputLayout =
-                new InputLayout(_directX3DGraphicsContext.Device, _shaderSignature, inputElements);
+                new InputLayout(_directX3DGraphicsContext.Device, shaderSignature, inputElements);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -246,8 +245,7 @@ namespace NuulEngine.Graphics
                     Utilities.Dispose(ref _perFrameConstantBufferBinder);
                     Utilities.Dispose(ref _linearSampler);
                     Utilities.Dispose(ref _anisotropicSampler);
-                    Utilities.Dispose(ref _inputLayout);
-                    Utilities.Dispose(ref _shaderSignature);
+                    Utilities.Dispose(ref _pointSampler);
                     //DisposeIllumination();
                     Utilities.Dispose(ref _pixelShader);
                     Utilities.Dispose(ref _vertexShader);
