@@ -3,7 +3,7 @@ using SharpDX.D3DCompiler;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Para_1
+namespace NuulEngine.Graphics.Infrastructure.Shaders
 {
     internal sealed class IncludeHandler : Include
     {

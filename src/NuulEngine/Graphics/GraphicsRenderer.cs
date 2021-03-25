@@ -13,23 +13,21 @@ namespace NuulEngine.Graphics
     {
         private bool _isDisposed;
 
-        private Direct3DGraphicsContext _directX3DGraphics;
+        private readonly Direct3DGraphicsContext _directX3DGraphicsContext;
 
-        private PerFrameDataConstantBufferBinder _perFrameConstantBufferObject;
+        private PerFrameDataConstantBufferBinder _perFrameConstantBufferBinder;
 
-        private PerObjectDataConstantBufferBinder _perObjectConstantBufferObject;
+        private PerObjectDataConstantBufferBinder _perObjectConstantBufferBinder;
 
-        private MaterialPropertiesConstantBufferBinder _materialPropertiesConstantBufferObject;
+        private MaterialPropertiesConstantBufferBinder _materialPropertiesConstantBufferBinder;
         
 
         private InputLayout _inputLayout;
 
         private PerFrameData _perFrameConstantBuffer;
-
         private PerObjectData _perObjectConstantBuffer;
 
         private VertexShader _vertexShader;
-
         private PixelShader _pixelShader;
 
         private Material _currentMaterial;
@@ -41,18 +39,16 @@ namespace NuulEngine.Graphics
         private SamplerState _linearSampler;
         private SamplerState _pointSampler;
 
-        private ClassLinkage _pixelShaderClassLinkage;
-        private ClassLinkage _vertexShaderClassLinkage;
-
-        private RasterizerState _solidRasterizerState;
-        private RasterizerState _wireframeRasterizerState;
+        private RasterizerState _rasterizerState;
 
         public GraphicsRenderer(Direct3DGraphicsContext directX3DGraphics)
         {
-            _directX3DGraphics = directX3DGraphics;
+            _directX3DGraphicsContext = directX3DGraphics;
             
             MarkUpInputLayout();
-
+            InitializeVertexShader("shader");
+            InitializePixelShader("shader");
+            SetRasterizerState();
         }
 
         public SamplerState AnisotropicSampler { get => _anisotropicSampler; }
@@ -63,48 +59,75 @@ namespace NuulEngine.Graphics
 
         internal void BeginRender()
         {
-            _directX3DGraphics.ClearBuffers(Color.Black);
+            _directX3DGraphicsContext.ClearBuffers(Color.Black);
         }
 
         internal void CreateConstantBuffers()
         {
-            _perFrameConstantBufferObject = 
-                new PerFrameDataConstantBufferBinder(_directX3DGraphics.Device,
-                    _directX3DGraphics.DeviceContext, _directX3DGraphics.DeviceContext.VertexShader, 0, 0);
+            _perFrameConstantBufferBinder = 
+                new PerFrameDataConstantBufferBinder(_directX3DGraphicsContext.Device,
+                    _directX3DGraphicsContext.DeviceContext, _directX3DGraphicsContext.DeviceContext.VertexShader, 0, 0);
 
-            _perObjectConstantBufferObject =
-                new PerObjectDataConstantBufferBinder(_directX3DGraphics.Device,
-                _directX3DGraphics.DeviceContext, _directX3DGraphics.DeviceContext.VertexShader, 0, 0);
+            _perObjectConstantBufferBinder =
+                new PerObjectDataConstantBufferBinder(_directX3DGraphicsContext.Device,
+                _directX3DGraphicsContext.DeviceContext, _directX3DGraphicsContext.DeviceContext.VertexShader, 0, 0);
 
-            _materialPropertiesConstantBufferObject =
-                new MaterialPropertiesConstantBufferBinder(_directX3DGraphics.Device,
-                _directX3DGraphics.DeviceContext, _directX3DGraphics.DeviceContext.PixelShader, 0, 0);
+            _materialPropertiesConstantBufferBinder =
+                new MaterialPropertiesConstantBufferBinder(_directX3DGraphicsContext.Device,
+                _directX3DGraphicsContext.DeviceContext, _directX3DGraphicsContext.DeviceContext.PixelShader, 0, 0);
         }
 
         internal void EndRender()
         {
-            _directX3DGraphics.SwapChain.Present(1, PresentFlags.Restart);
+            _directX3DGraphicsContext.SwapChain.Present(1, PresentFlags.Restart);
         }
 
         internal void RenderMeshObject(MeshObject meshObject)
         {
             SetMaterial(meshObject.Material);
 
-            _directX3DGraphics.DeviceContext.InputAssembler.PrimitiveTopology = 
+            _directX3DGraphicsContext.DeviceContext.InputAssembler.PrimitiveTopology = 
                 meshObject.Mesh.PrimitiveTopology;
-            // Check were _solidRasterizerState goes to.
-            _directX3DGraphics.DeviceContext.Rasterizer.State = _solidRasterizerState;
 
-            _directX3DGraphics.DeviceContext.InputAssembler
+            // Check were _rasterizerState goes to.
+            _directX3DGraphicsContext.DeviceContext.Rasterizer.State = _rasterizerState;
+
+            _directX3DGraphicsContext.DeviceContext.InputAssembler
                 .SetVertexBuffers(0, meshObject.VertexBufferBinding);
-            _directX3DGraphics.DeviceContext.InputAssembler
+            _directX3DGraphicsContext.DeviceContext.InputAssembler
                 .SetIndexBuffer(meshObject.IndicesBufferObject, Format.R32_UInt, 0);
-            _directX3DGraphics.DeviceContext.VertexShader.Set(_vertexShader);
+            _directX3DGraphicsContext.DeviceContext.VertexShader.Set(_vertexShader);
+
             //
             // Inimplemented due to lack of lightning implementation.
             //
             //_directX3DGraphics.DeviceContext.PixelShader.Set(_pixelShader, _lightInterfaces);
-            _directX3DGraphics.DeviceContext.DrawIndexed(meshObject.Mesh.IndicesCount, 0, 0);
+            _directX3DGraphicsContext.DeviceContext.DrawIndexed(meshObject.Mesh.IndicesCount, 0, 0);
+        }
+
+        internal void UpdatePerFrameConstantBuffers(float deltaTime)
+        {
+            var data = new PerFrameData { time = deltaTime };
+            _perFrameConstantBufferBinder.Update(data);
+        }
+
+        internal void UpdatePerObjectConstantBuffers(Matrix world, Matrix view,
+            Matrix projection, int timeScaling)
+        {
+            Matrix worldViewProjection = Matrix
+                    .Multiply(Matrix.Multiply(world, view), projection);
+            worldViewProjection.Transpose();
+            Matrix worldMatrix = world;
+            worldMatrix.Transpose();
+
+            var data = new PerObjectData
+            { 
+                worldViewProjectionMatrix = worldViewProjection,
+                worldMatrix = worldMatrix,
+                inverseTransposeWorldMatrix = Matrix.Invert(world),
+                timeScaling = timeScaling,
+            };
+            _perObjectConstantBufferBinder.Update(data);
         }
 
         private void SetMaterial(Material material)
@@ -113,7 +136,7 @@ namespace NuulEngine.Graphics
             {
                 SetTexture(material.Texture);
                 _currentMaterial = material;
-                _materialPropertiesConstantBufferObject
+                _materialPropertiesConstantBufferBinder
                     .Update(material.MaterialProperties);
             }
         }
@@ -122,18 +145,57 @@ namespace NuulEngine.Graphics
         {
             if (_currentTexture != texture && texture != null)
             {
-                _directX3DGraphics.DeviceContext.PixelShader
+                _directX3DGraphicsContext.DeviceContext.PixelShader
                     .SetShaderResource(0, texture.ShaderResourceView);
 
-                _directX3DGraphics.DeviceContext.PixelShader
+                _directX3DGraphicsContext.DeviceContext.PixelShader
                     .SetSampler(0, texture.SamplerState);
 
                 _currentTexture = texture;
             }
         }
 
+        private void SetRasterizerState()
+        {
+            var _rasterizerStateDescription = new RasterizerStateDescription
+            {
+                FillMode = FillMode.Solid,
+                CullMode = CullMode.Front,
+                IsFrontCounterClockwise = true,
+                IsMultisampleEnabled = true,
+                IsAntialiasedLineEnabled = true,
+                IsDepthClipEnabled = true,
+            };
+            _rasterizerState = new RasterizerState(_directX3DGraphicsContext.Device,
+                _rasterizerStateDescription);
+        }
+
+        private void InitializeVertexShader(string fileName)
+        {
+            CompilationResult vertexShaderByteCode = ShaderBytecode
+                .CompileFromFile(fileName, "vertexShader", "vs_5_0",
+                ShaderFlags.None, EffectFlags.None, null, new IncludeHandler());
+
+            _vertexShader = new VertexShader(_directX3DGraphicsContext.Device,
+                vertexShaderByteCode, new ClassLinkage(_directX3DGraphicsContext.Device));
+            _shaderSignature = ShaderSignature.GetInputSignature(vertexShaderByteCode);
+            Utilities.Dispose(ref vertexShaderByteCode);
+        }
+
+        private void InitializePixelShader(string fileName)
+        {
+            CompilationResult pixelShaderByteCode =
+                ShaderBytecode.CompileFromFile(fileName, "pixelShader", "ps_5_0",
+                ShaderFlags.EnableStrictness | ShaderFlags.SkipOptimization | ShaderFlags.Debug,
+                EffectFlags.None, null, new IncludeHandler());
+
+            _pixelShader = new PixelShader(_directX3DGraphicsContext.Device,
+                pixelShaderByteCode, new ClassLinkage(_directX3DGraphicsContext.Device));
+            Utilities.Dispose(ref pixelShaderByteCode);
+        }
+
         /// <summary>
-        /// Sets an input-layout object to describe 
+        /// Sets an input-layout object to describe
         /// the input-buffer data for the input-assembler stage.
         /// </summary>
         private void MarkUpInputLayout()
@@ -145,8 +207,8 @@ namespace NuulEngine.Graphics
                 new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 32, 0),
                 new InputElement("TEXCOORD", 0, Format.R32G32_Float, 48, 0)
             };
-            _directX3DGraphics.DeviceContext.InputAssembler.InputLayout =
-                new InputLayout(_directX3DGraphics.Device, _shaderSignature, inputElements);
+            _directX3DGraphicsContext.DeviceContext.InputAssembler.InputLayout =
+                new InputLayout(_directX3DGraphicsContext.Device, _shaderSignature, inputElements);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -155,9 +217,9 @@ namespace NuulEngine.Graphics
             {
                 if (disposing)
                 {
-                    Utilities.Dispose(ref _materialPropertiesConstantBufferObject);
-                    Utilities.Dispose(ref _perObjectConstantBufferObject);
-                    Utilities.Dispose(ref _perFrameConstantBufferObject);
+                    Utilities.Dispose(ref _materialPropertiesConstantBufferBinder);
+                    Utilities.Dispose(ref _perObjectConstantBufferBinder);
+                    Utilities.Dispose(ref _perFrameConstantBufferBinder);
                     Utilities.Dispose(ref _linearSampler);
                     Utilities.Dispose(ref _anisotropicSampler);
                     Utilities.Dispose(ref _inputLayout);
@@ -165,7 +227,6 @@ namespace NuulEngine.Graphics
                     //DisposeIllumination();
                     Utilities.Dispose(ref _pixelShader);
                     Utilities.Dispose(ref _vertexShader);
-                    Utilities.Dispose(ref _pixelShaderClassLinkage);
                 }
 
                 _isDisposed = true;
