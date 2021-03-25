@@ -6,6 +6,7 @@ using SharpDX;
 using SharpDX.DXGI;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
+using SharpDX.Mathematics.Interop;
 
 namespace NuulEngine.Graphics
 {
@@ -49,6 +50,7 @@ namespace NuulEngine.Graphics
             InitializeVertexShader("shader");
             InitializePixelShader("shader");
             SetRasterizerState();
+            InitializeSamplers();
         }
 
         public SamplerState AnisotropicSampler { get => _anisotropicSampler; }
@@ -192,6 +194,28 @@ namespace NuulEngine.Graphics
             _pixelShader = new PixelShader(_directX3DGraphicsContext.Device,
                 pixelShaderByteCode, new ClassLinkage(_directX3DGraphicsContext.Device));
             Utilities.Dispose(ref pixelShaderByteCode);
+        }
+
+        private void InitializeSamplers()
+        {
+            var samplerStateDescription = new SamplerStateDescription
+                {
+                    Filter = Filter.Anisotropic,
+                    AddressU = TextureAddressMode.Clamp,
+                    AddressV = TextureAddressMode.Clamp,
+                    AddressW = TextureAddressMode.Clamp,
+                    MipLodBias = 0,
+                    MaximumAnisotropy = 16,
+                    ComparisonFunction = Comparison.Never,
+                    BorderColor = new RawColor4(1.0f, 1.0f, 1.0f, 1.0f),
+                    MinimumLod = 0,
+                    MaximumLod = float.MaxValue,
+                };
+
+            _anisotropicSampler = new SamplerState(_directX3DGraphicsContext.Device, samplerStateDescription);
+            samplerStateDescription.Filter = Filter.MinMagMipLinear;
+            _linearSampler = new SamplerState(_directX3DGraphicsContext.Device, samplerStateDescription);
+            _pointSampler = new SamplerState(_directX3DGraphicsContext.Device, samplerStateDescription);
         }
 
         /// <summary>
