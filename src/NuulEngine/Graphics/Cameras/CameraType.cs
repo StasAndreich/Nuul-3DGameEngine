@@ -1,4 +1,4 @@
-﻿namespace NuulEngine.Graphics
+﻿namespace NuulEngine.Graphics.Cameras
 {
     public enum CameraType
     {
