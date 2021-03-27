@@ -10,7 +10,7 @@ using SharpDX.Mathematics.Interop;
 
 namespace NuulEngine.Graphics
 {
-    internal sealed class GraphicsRenderer : IDisposable
+    internal sealed partial class GraphicsRenderer : IDisposable
     {
         private bool _isDisposed;
 
@@ -43,7 +43,11 @@ namespace NuulEngine.Graphics
             _directX3DGraphicsContext = directX3DGraphics;
             
             InitializeVertexShader("shader", out ShaderSignature shaderSignature);
-            InitializePixelShader("shader");
+            InitializePixelShader("shader",
+                out CompilationResult pixelShaderByteCode,
+                out ClassLinkage pixelShaderClassLinkage);
+
+            InitializeIllumination(pixelShaderByteCode, pixelShaderClassLinkage);
             MarkUpInputLayout(shaderSignature);
             SetRasterizerState();
             InitializeSamplers();
@@ -183,16 +187,17 @@ namespace NuulEngine.Graphics
             Utilities.Dispose(ref vertexShaderByteCode);
         }
 
-        private void InitializePixelShader(string fileName)
+        private void InitializePixelShader(string fileName, out CompilationResult pixelShaderByteCode,
+            out ClassLinkage pixelShaderClassLinkage)
         {
-            CompilationResult pixelShaderByteCode =
+            pixelShaderByteCode =
                 ShaderBytecode.CompileFromFile(fileName, "pixelShader", "ps_5_0",
                 ShaderFlags.EnableStrictness | ShaderFlags.SkipOptimization | ShaderFlags.Debug,
                 EffectFlags.None, null, new IncludeHandler());
 
+            pixelShaderClassLinkage = new ClassLinkage(_directX3DGraphicsContext.Device);
             _pixelShader = new PixelShader(_directX3DGraphicsContext.Device,
-                pixelShaderByteCode, new ClassLinkage(_directX3DGraphicsContext.Device));
-            Utilities.Dispose(ref pixelShaderByteCode);
+                pixelShaderByteCode, pixelShaderClassLinkage);
         }
 
         private void InitializeSamplers()
@@ -246,7 +251,7 @@ namespace NuulEngine.Graphics
                     Utilities.Dispose(ref _linearSampler);
                     Utilities.Dispose(ref _anisotropicSampler);
                     Utilities.Dispose(ref _pointSampler);
-                    //DisposeIllumination();
+                    DisposeIllumination();
                     Utilities.Dispose(ref _pixelShader);
                     Utilities.Dispose(ref _vertexShader);
                 }

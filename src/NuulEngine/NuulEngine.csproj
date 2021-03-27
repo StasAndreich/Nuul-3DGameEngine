@@ -81,11 +81,15 @@
     <Compile Include="Core\GameObject.cs" />
     <Compile Include="Core\Scene.cs" />
     <Compile Include="Core\Utilities\GameObjectCollection.cs" />
-    <Compile Include="Graphics\Camera.cs" />
-    <Compile Include="Graphics\CameraType.cs" />
+    <Compile Include="Graphics\Cameras\Camera.cs" />
+    <Compile Include="Graphics\Cameras\CameraType.cs" />
+    <Compile Include="Graphics\Cameras\OrthographicCamera.cs" />
+    <Compile Include="Graphics\Cameras\PerspectiveCamera.cs" />
     <Compile Include="Graphics\Direct3DGraphicsContext.cs" />
     <Compile Include="Graphics\GraphicsRenderer.cs" />
-    <Compile Include="Graphics\Infrastructure\LightSourceType.cs" />
+    <Compile Include="Graphics\Infrastructure\Light\IlluminationProperties.cs" />
+    <Compile Include="Graphics\Infrastructure\Light\LightSource.cs" />
+    <Compile Include="Graphics\Infrastructure\Light\LightSourceType.cs" />
     <Compile Include="Graphics\Infrastructure\Material.cs" />
     <Compile Include="Graphics\Infrastructure\Mesh.cs" />
     <Compile Include="Graphics\Infrastructure\MeshObject.cs" />
@@ -105,8 +109,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\GraphicsRenderer.Illumination.cs" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
