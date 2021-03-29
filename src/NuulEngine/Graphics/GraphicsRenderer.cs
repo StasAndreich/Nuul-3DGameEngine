@@ -103,10 +103,7 @@ namespace NuulEngine.Graphics
                 .SetIndexBuffer(meshObject.IndicesBufferObject, Format.R32_UInt, 0);
             _directX3DGraphicsContext.DeviceContext.VertexShader.Set(_vertexShader);
 
-            //
-            // Inimplemented due to lack of lightning implementation.
-            //
-            //_directX3DGraphics.DeviceContext.PixelShader.Set(_pixelShader, _lightInterfaces);
+            _directX3DGraphicsContext.DeviceContext.PixelShader.Set(_pixelShader, _lightInterfaces);
             _directX3DGraphicsContext.DeviceContext.DrawIndexed(meshObject.Mesh.IndicesCount, 0, 0);
         }
 

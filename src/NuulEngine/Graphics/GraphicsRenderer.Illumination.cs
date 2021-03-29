@@ -34,17 +34,28 @@ namespace NuulEngine.Graphics
         {
             var pixelShaderReflection = new ShaderReflection(pixelShaderByteCode);
             var lightInterfaceCount = pixelShaderReflection.InterfaceSlotCount;
-            if (lightInterfaceCount != MaxLightsCount) throw new IndexOutOfRangeException("Light interfaces count");
-            _lightInterfaces = new ClassInstance[lightInterfaceCount];
+            
+            if (lightInterfaceCount != MaxLightsCount)
+            {
+                throw new IndexOutOfRangeException("Light interfaces count is bigger than MaxLightCount.");
+            }
 
+            _lightInterfaces = new ClassInstance[lightInterfaceCount];
             ShaderReflectionVariable shaderVariableLights = pixelShaderReflection.GetVariable("lights");
 
             for (int i = 0; i <= MaxLightsCount - 1; ++i)
-                _lightVariableOffsets[i] = shaderVariableLights.GetInterfaceSlot(i); // i - array element index. For non-array = 0.
+            {
+                // i - array element index. For non-array = 0.
+                _lightVariableOffsets[i] = shaderVariableLights
+                    .GetInterfaceSlot(i);
+            }
 
             _lightInstances = new ClassInstance[_lightSourceTypeCount];
             for (int i = 0; i <= _lightSourceTypeCount - 1; ++i)
-                _lightInstances[i] = pixelShaderClassLinkage.GetClassInstance(lightClassVariableNames[i], 0);
+            {
+                _lightInstances[i] = pixelShaderClassLinkage
+                    .GetClassInstance(lightClassVariableNames[i], 0);
+            }
 
             Utilities.Dispose(ref pixelShaderByteCode);
             Utilities.Dispose(ref shaderVariableLights);
