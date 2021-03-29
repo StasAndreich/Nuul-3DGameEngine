@@ -91,6 +91,8 @@ namespace NuulEngine.Graphics.Infrastructure
             }
         }
 
+        public Texture2D BackBuffer { get => _backBuffer; }
+
         public SharpDX.Direct3D11.Device Device { get => _device; }
 
         public DeviceContext DeviceContext { get => _device.ImmediateContext; }
