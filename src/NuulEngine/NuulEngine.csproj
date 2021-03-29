@@ -85,8 +85,10 @@
     <Compile Include="Graphics\Cameras\CameraType.cs" />
     <Compile Include="Graphics\Cameras\OrthographicCamera.cs" />
     <Compile Include="Graphics\Cameras\PerspectiveCamera.cs" />
+    <Compile Include="Graphics\Direct2DGraphicsContext.cs" />
     <Compile Include="Graphics\Direct3DGraphicsContext.cs" />
     <Compile Include="Graphics\GraphicsRenderer.cs" />
+    <Compile Include="Graphics\GraphicsUtilities\DisposeUtilities.cs" />
     <Compile Include="Graphics\Infrastructure\Light\IlluminationProperties.cs" />
     <Compile Include="Graphics\Infrastructure\Light\LightSource.cs" />
     <Compile Include="Graphics\Infrastructure\Light\LightSourceType.cs" />
