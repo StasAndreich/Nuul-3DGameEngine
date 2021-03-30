@@ -1,8 +1,9 @@
 <br />
 <p align="center">
-  <a href="https://github.com/StasAndreich/RetroRace-Net-OpenTK-Game/tree/master/RacingGame2D">
-    <img src="readme/null_clear.png" alt="Nuul icon" width="256" height="256">
+  <a href="https://github.com/StasAndreich/Nuul-3DGameEngine/tree/main/src">
+    <img src="readme/nuul-logo.png" alt="Nuul icon" width="256" height="256">
   </a>
+
 
   <h3 align="center">Nuul - 3D Game Engine</h3>
   <p align="center">
