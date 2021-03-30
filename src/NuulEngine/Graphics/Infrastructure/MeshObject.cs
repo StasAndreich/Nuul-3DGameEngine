@@ -1,8 +1,6 @@
 ﻿using System;
-using NuulEngine.Graphics.Infrastructure;
 using NuulEngine.Graphics.Infrastructure.Structs;
 using SharpDX;
-using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 
 namespace NuulEngine.Graphics.Infrastructure
@@ -11,33 +9,30 @@ namespace NuulEngine.Graphics.Infrastructure
     {
         private bool _isDisposed;
 
-        private readonly Direct3DGraphicsContext _directX3DGraphics;
-
         private SharpDX.Direct3D11.Buffer _indicesBufferObject;
 
         private SharpDX.Direct3D11.Buffer _vertexBufferObject;
 
         public MeshObject(
-            Direct3DGraphicsContext directX3DGraphics, Vector4 position,
+            Device device, Vector4 position,
             float yaw, float pitch, float roll,
             Mesh mesh, Material material)
             : base(position, yaw, pitch, roll)
         {
-            _directX3DGraphics = directX3DGraphics;
             Material = material;
             Mesh = mesh;
             IsVisible = true;
 
             _vertexBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
-                    device: _directX3DGraphics.Device,
+                    device: device,
                     bindFlags: BindFlags.VertexBuffer,
                     data: mesh.Vertices,
                     sizeInBytes: Utilities.SizeOf<VertexData>() * mesh.VerticesCount);
 
             _indicesBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
-                    device: _directX3DGraphics.Device,
+                    device: device,
                     bindFlags: BindFlags.IndexBuffer,
                     data: mesh.Indices,
                     sizeInBytes: Utilities.SizeOf<uint>() * mesh.IndicesCount);
