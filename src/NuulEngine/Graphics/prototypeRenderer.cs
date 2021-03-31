@@ -1,19 +1,19 @@
-﻿using NuulEngine.Graphics.Infrastructure;
+﻿using System;
 using SharpDX.Windows;
-using System;
+using NuulEngine.Graphics.Infrastructure;
+using NuulEngine.Graphics.Cameras;
 
 namespace NuulEngine.Graphics
 {
     internal sealed class prototypeRenderer
     {
         private RenderForm _renderForm;
-
         // Not init.
         private Camera _camera;
 
         private Direct3DGraphicsContext _directX3DGraphics;
 
-        //private DirectX2DGraphics _directX2DGraphics;
+        private Direct2DGraphicsContext _directX2DGraphics;
 
         private GraphicsRenderer _graphicsRenderer;
 
