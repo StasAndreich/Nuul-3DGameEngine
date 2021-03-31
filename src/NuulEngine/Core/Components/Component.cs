@@ -1,6 +1,6 @@
 ﻿namespace NuulEngine.Core.Components
 {
-    public abstract class Component : IComponent
+    public abstract class Component
     {
         protected Component(GameObject owner)
         {
