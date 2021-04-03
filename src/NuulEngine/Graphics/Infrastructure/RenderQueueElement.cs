@@ -2,6 +2,8 @@
 {
     internal class RenderQueueElement
     {
-        public MeshObject MeshObject { get; set; }
+        public Mesh MeshObject { get; set; }
+        GameObj
+            Shader
     }
 }

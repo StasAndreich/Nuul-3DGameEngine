@@ -79,6 +79,7 @@
     <Compile Include="Core\Components\MeshRenderer.cs" />
     <Compile Include="Core\EngineCore.cs" />
     <Compile Include="Core\GameObject.cs" />
+    <Compile Include="Core\ISceneInitializer.cs" />
     <Compile Include="Core\Scene.cs" />
     <Compile Include="Core\Utilities\GameObjectCollection.cs" />
     <Compile Include="Graphics\Cameras\Camera.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Graphics\Infrastructure\Mesh.cs" />
     <Compile Include="Graphics\Infrastructure\MeshObject.cs" />
     <Compile Include="Graphics\Infrastructure\Object3D.cs" />
+    <Compile Include="Graphics\Infrastructure\RenderQueueElement.cs" />
     <Compile Include="Graphics\Infrastructure\Shaders\ConstantBufferBinder.cs" />
     <Compile Include="Graphics\Infrastructure\Shaders\IncludeHandler.cs" />
     <Compile Include="Graphics\Infrastructure\Shaders\MaterialPropertiesConstantBufferBinder.cs" />
