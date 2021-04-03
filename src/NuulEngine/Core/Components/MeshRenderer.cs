@@ -6,8 +6,9 @@ namespace NuulEngine.Core.Components
     public sealed class MeshRenderer : Component
     {
         private Mesh _mesh;
-        public MeshRenderer(GameObject owner, string meshPath) 
-            : base(owner)
+
+        public MeshRenderer(string meshPath)
+            : base(null)
         {
             //TODO: Make static load method
             //_mesh = Loader.LoadMesh(meshPath);
@@ -15,11 +16,7 @@ namespace NuulEngine.Core.Components
 
         public override void CallComponent(double deltaTime)
         {
-            //TODO: Add mesh object to rendering order
-            //if(Owner.Active)
-            //{
-            //  Add to order
-            //}
+            EngineCore.Instance.Renderer.AddToRenderQueue(_mesh);
         }
     }
 }

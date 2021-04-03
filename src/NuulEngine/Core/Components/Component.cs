@@ -7,6 +7,8 @@
             Owner = owner;
         }
 
+        public bool IsActive { get; set; } = true;
+
         public GameObject Owner { get; }
 
         public abstract void CallComponent(double deltaTime);

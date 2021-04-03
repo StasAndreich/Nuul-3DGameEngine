@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using NuulEngine.Graphics;
-using NuulEngine.Core.Utilities;
 using SharpDX.Windows;
+using System.Collections.Generic;
+using NuulEngine.Core.Utils;
 
 namespace NuulEngine.Core
 {
@@ -17,21 +19,37 @@ namespace NuulEngine.Core
 
         private bool _isDisposed;
 
+        private string _activeSceneName;
+
         private long _lastTickCount;
 
-        private double _timeElapsed;
+        //private InputProvider _inputProvider;
 
-        private InputProvider _inputProvider;
+        private readonly prototypeRenderer _renderer;
 
-        private prototypeRenderer _renderer;
+        //private readonly List<Scene> _scenes;
 
-        public EngineCore()
+        private readonly GameObjectCollection _scene;
+
+        public EngineCore(ISceneInitializer sceneInitializer)
         {
+            sceneInitializer.Initialize(_scene);
+
             var renderForm = CreateConfiguredRenderForm((form) =>
                     form.Text = "App");
             _renderer = new prototypeRenderer(renderForm);
-            _inputProvider = new InputProvider(renderForm);
+
+            Instance = this;
+            
+            //_inputProvider = new InputProvider(renderForm);
+            
         }
+
+        public static EngineCore Instance { get; private set; }
+
+        internal prototypeRenderer Renderer { get; }
+
+        //public Scene ActiveScene { get => _scene.Find(scene => scene.Name == _activeSceneName); }
 
         /// <summary>
         /// Starts main game rendering loop.
@@ -41,26 +59,29 @@ namespace NuulEngine.Core
             _renderer.RunRenderLoop(RenderLoopCallback);
         }
 
+        //public void SetSceneActive(string sceneName)
+        //{
+        //    if (!_scenes.Exists(scene => scene.Name == sceneName))
+        //    {
+        //        throw new ArgumentOutOfRangeException(nameof(sceneName));
+        //    }
+
+        //    _activeSceneName = sceneName;
+        //}
+
         private void RenderLoopCallback()
         {
             var currentTickCount = _stopwatch.ElapsedTicks;
             var deltaTime = (currentTickCount - _lastTickCount)
                 / (double)TimeSpan.TicksPerSecond;
-
             _lastTickCount = currentTickCount;
 
-            _timeElapsed += deltaTime;
-            if (_timeElapsed >= FixedUpdateDeltaTime)
-            {
-                // Put there Fixed update code.
-            }
-
-            foreach (var item in )
+            foreach (var gameObject in )
             {
                 // Put there Update code.
             }
 
-            //_renderer.RenderScene();
+            _renderer.RenderScene();
         }
 
         internal RenderForm CreateConfiguredRenderForm(Action<RenderForm> configurateRenderForm)
