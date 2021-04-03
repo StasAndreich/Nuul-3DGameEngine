@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using NuulEngine.Core.Utils;
 using NuulEngine.Core.Components;
 
@@ -8,7 +10,7 @@ namespace NuulEngine.Core
     {
         private const string DefaultTag = "Default Tag";
 
-        private List<Component> components; 
+        private readonly List<Component> _components = new List<Component>(); 
 
         public GameObject()
             : this(DefaultTag)
@@ -30,15 +32,32 @@ namespace NuulEngine.Core
 
         public GameObjectCollection ChildObjects { get; }
 
-        public void AddComponent(Component component)
+        public TComponent AddComponent<TComponent>()
+            where TComponent : Component
         {
-            components.Add(component);
+            if (typeof(Component).IsAssignableFrom(typeof(TComponent))
+                && GetComponent<TComponent>() != null)
+            {
+                throw new InvalidOperationException("Components must be unique.");
+            }
+
+            var ctor = typeof(TComponent).GetConstructor(
+                bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                binder: null,
+                types: new[] { typeof(GameObject) },
+                modifiers: null);
+
+            var component = (TComponent)ctor.Invoke(new[] { this });
+
+            _components.Add(component);
+
+            return component;
         }
 
         public TComponent GetComponent<TComponent>()
             where TComponent : Component
         {
-            foreach (var component in components)
+            foreach (var component in _components)
             {
                 if(component is TComponent result)
                 {
