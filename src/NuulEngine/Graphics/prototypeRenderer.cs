@@ -7,9 +7,12 @@ using System.Collections.Generic;
 
 namespace NuulEngine.Graphics
 {
-    internal sealed class prototypeRenderer
+    internal sealed class prototypeRenderer : IDisposable
     {
-        private RenderForm _renderForm;
+        private readonly RenderForm _renderForm;
+
+        private bool _isDisposed;
+        
         // Not init.
         private Camera _camera;
 
@@ -33,35 +36,28 @@ namespace NuulEngine.Graphics
 
         public event EventHandler SwapChainResizing;
 
-        internal void AddToRenderQueue(Mesh mesh)
-        {
-            var meshObj = new MeshObject(
-                _directX3DGraphics.Device,
-                Vector4.Zero,
-                0, 0, 0,
-                mesh,
-                null);
-
-            var element = new RenderQueueElement { MeshObject = meshObj };
-            _renderQueue.Add(element);
-        }
-
-        public void RunRenderLoop(RenderLoop.RenderCallback renderCallback)
-        {
-            RenderLoop.Run(_renderForm, renderCallback);
-        }
-
-        public void RenderScene()
+        internal void RenderScene(float deltaTime)
         {
             Matrix viewMatrix = _camera.GetViewMatrix();
             Matrix projectionMatrix = _camera.GetPojectionMatrix();
 
-            //_graphicsRenderer.UpdatePerFrameConstantBuffers(_timeHelper.Time);
+            _graphicsRenderer.UpdatePerFrameConstantBuffers(deltaTime);
 
             //_illumination.eyePosition = _camera.Position;
             //_graphicsRenderer.UpdateIllumination(_illumination);
 
             _graphicsRenderer.BeginRender();
+
+            foreach (var item in _renderQueue)
+            {
+                _graphicsRenderer.UpdatePerObjectConstantBuffers(
+                    world: item.MeshObject.GetWorldMatrix(),
+                    view: viewMatrix,
+                    projection: projectionMatrix,
+                    timeScaling: 1); // 1 ???
+
+                _graphicsRenderer.RenderMeshObject(item.MeshObject);
+            }
 
             //for (int i = 0; i < _scene.Meshes.Count; i++)
             //{
@@ -77,6 +73,24 @@ namespace NuulEngine.Graphics
             _graphicsRenderer.EndRender();
         }
 
+        internal void AddToRenderQueue(Mesh mesh)
+        {
+            var meshObj = new MeshObject(
+                _directX3DGraphics.Device,
+                Vector4.Zero,
+                0, 0, 0,
+                mesh,
+                null);
+
+            var element = new RenderQueueElement { MeshObject = meshObj };
+            _renderQueue.Add(element);
+        }
+
+        internal void RunRenderLoop(RenderLoop.RenderCallback renderCallback)
+        {
+            RenderLoop.Run(_renderForm, renderCallback);
+        }
+
         private void OnRenderFormResized(object sender, EventArgs args)
         {
             SwapChainResizing?.Invoke(this, null);
@@ -84,6 +98,26 @@ namespace NuulEngine.Graphics
             //_camera = _renderForm.ClientSize.Width
             //    / (float)_renderForm.ClientSize.Height;
             SwapChainResized?.Invoke(this, null);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    _graphicsRenderer.Dispose();
+                    _directX3DGraphics.Dispose();
+                }
+
+                _isDisposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

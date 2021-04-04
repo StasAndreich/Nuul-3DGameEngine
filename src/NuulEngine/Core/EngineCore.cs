@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Diagnostics;
 using NuulEngine.Graphics;
 using SharpDX.Windows;
-using System.Collections.Generic;
 using NuulEngine.Core.Utils;
 
 namespace NuulEngine.Core
@@ -11,25 +9,19 @@ namespace NuulEngine.Core
     /// <summary>
     /// Core class that contains logic for running a game.
     /// </summary>
-    public sealed class EngineCore : IDisposable
+    public class EngineCore : IDisposable
     {
         private const double FixedUpdateDeltaTime = 0.01;
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
 
-        private bool _isDisposed;
-
-        private string _activeSceneName;
-
-        private long _lastTickCount;
-
-        //private InputProvider _inputProvider;
-
-        private readonly prototypeRenderer _renderer;
-
-        //private readonly List<Scene> _scenes;
+        private readonly InputProvider _inputProvider;
 
         private readonly GameObjectCollection _scene;
+
+        private bool _isDisposed;
+
+        private long _lastTickCount;
 
         public EngineCore(ISceneInitializer sceneInitializer)
         {
@@ -37,7 +29,7 @@ namespace NuulEngine.Core
 
             var renderForm = CreateConfiguredRenderForm((form) =>
                     form.Text = "App");
-            _renderer = new prototypeRenderer(renderForm);
+            Renderer = new prototypeRenderer(renderForm);
 
             Instance = this;
             
@@ -49,25 +41,13 @@ namespace NuulEngine.Core
 
         internal prototypeRenderer Renderer { get; }
 
-        //public Scene ActiveScene { get => _scene.Find(scene => scene.Name == _activeSceneName); }
-
         /// <summary>
         /// Starts main game rendering loop.
         /// </summary>
         public void Run()
         {
-            _renderer.RunRenderLoop(RenderLoopCallback);
+            Renderer.RunRenderLoop(RenderLoopCallback);
         }
-
-        //public void SetSceneActive(string sceneName)
-        //{
-        //    if (!_scenes.Exists(scene => scene.Name == sceneName))
-        //    {
-        //        throw new ArgumentOutOfRangeException(nameof(sceneName));
-        //    }
-
-        //    _activeSceneName = sceneName;
-        //}
 
         private void RenderLoopCallback()
         {
@@ -76,12 +56,15 @@ namespace NuulEngine.Core
                 / (double)TimeSpan.TicksPerSecond;
             _lastTickCount = currentTickCount;
 
-            foreach (var gameObject in )
+            foreach (var gameObject in _scene)
             {
-                // Put there Update code.
+                if (gameObject.IsActive)
+                {
+                    gameObject.Update();
+                }
             }
 
-            _renderer.RenderScene();
+            Renderer.RenderScene((float)deltaTime);
         }
 
         internal RenderForm CreateConfiguredRenderForm(Action<RenderForm> configurateRenderForm)
@@ -97,19 +80,13 @@ namespace NuulEngine.Core
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects)
+                    // Add Input disposing.
+                    Renderer.Dispose();
                 }
 
                 _isDisposed = true;
             }
         }
-
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~EngineCore()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
 
         public void Dispose()
         {
