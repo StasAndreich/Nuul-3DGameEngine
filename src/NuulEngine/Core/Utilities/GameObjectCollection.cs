@@ -19,17 +19,17 @@ namespace NuulEngine.Core.Utils
             _owner = owner;
         }
 
-        public GameObject this[string tag]
+        public GameObject this[string name]
         {
             get
             {
-                GameObject result = Find(tag);
+                GameObject result = Find(name);
                 if (result != null)
                 {
                     return result;
                 }
 
-                throw new ArgumentOutOfRangeException(nameof(tag), "There is no object with that 'tag'");
+                throw new ArgumentOutOfRangeException(nameof(name), "There is no object with that 'name'");
             }
         }
 
@@ -82,9 +82,9 @@ namespace NuulEngine.Core.Utils
             _objects.CopyTo(array, arrayIndex);
         }
 
-        public GameObject Find(string tag)
+        public GameObject Find(string name)
         {
-            var resultObj = _objects.FirstOrDefault(o => o.Tag == tag);
+            var resultObj = _objects.FirstOrDefault(o => o.Name == name);
             if (resultObj != null)
             {
                 return resultObj;
@@ -92,7 +92,7 @@ namespace NuulEngine.Core.Utils
 
             foreach (var @object in _objects)
             {
-                var obj = @object.ChildObjects.Find(tag);
+                var obj = @object.ChildObjects.Find(name);
                 if (obj != null)
                 {
                     return obj;
@@ -134,9 +134,9 @@ namespace NuulEngine.Core.Utils
             return false;
         }
 
-        public bool Remove(string tag)
+        public bool Remove(string name)
         {
-            var objectToRemove = _objects.FirstOrDefault(o => o.Tag == tag);
+            var objectToRemove = _objects.FirstOrDefault(o => o.Name == name);
 
             if (objectToRemove != null)
             {
@@ -146,7 +146,7 @@ namespace NuulEngine.Core.Utils
 
             foreach (var @object in _objects)
             {
-                if (@object.ChildObjects.Remove(tag))
+                if (@object.ChildObjects.Remove(name))
                 {
                     return true;
                 }

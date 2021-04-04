@@ -8,25 +8,25 @@ namespace NuulEngine.Core
 {
     public class GameObject
     {
-        private const string DefaultTag = "Default Tag";
+        private const string DefaultName = "Default Name";
 
         private readonly List<Component> _components = new List<Component>(); 
 
         public GameObject()
-            : this(DefaultTag)
+            : this(DefaultName)
         {
         }
 
-        public GameObject(string tag)
+        public GameObject(string name)
         {
             IsActive = true;
-            Tag = tag;
+            Name = name;
             ChildObjects = new GameObjectCollection(this);
         }
 
         public bool IsActive { get; set; }
 
-        public string Tag { get; set; }
+        public string Name { get; set; }
 
         public GameObject Parent { get; internal set; }
 
