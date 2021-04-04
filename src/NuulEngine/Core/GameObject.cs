@@ -28,10 +28,18 @@ namespace NuulEngine.Core
 
         public string Name { get; set; }
 
-        public GameObject Parent { get; internal set; }
-
         public GameObjectCollection ChildObjects { get; }
 
+        public GameObject Parent { get; internal set; }
+
+        public Transform Transform { get; }
+
+        /// <summary>
+        /// Adds a component to a game object.
+        /// </summary>
+        /// <remarks>Uses reflection for adding an instance to its internal storage.</remarks>
+        /// <typeparam name="TComponent">Inheritor of Component class.</typeparam>
+        /// <returns>TComponent instance.</returns>
         public TComponent AddComponent<TComponent>()
             where TComponent : Component
         {
@@ -54,6 +62,11 @@ namespace NuulEngine.Core
             return component;
         }
 
+        /// <summary>
+        /// Returns a component of a specified type from a game object.
+        /// </summary>
+        /// <typeparam name="TComponent">Inheritor of Component class.</typeparam>
+        /// <returns>TComponent instance.</returns>
         public TComponent GetComponent<TComponent>()
             where TComponent : Component
         {
@@ -66,6 +79,14 @@ namespace NuulEngine.Core
             }
 
             return null;
+        }
+
+        internal void Update(float deltaTime)
+        {
+            foreach (var component in _components)
+            {
+                component.CallComponent(deltaTime);
+            }
         }
     }
 }
