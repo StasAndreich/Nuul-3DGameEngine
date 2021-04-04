@@ -1,7 +1,9 @@
-﻿using NuulEngine.Core.Utils;
+﻿using System;
+using NuulEngine.Core.Utils;
 
 namespace NuulEngine.Core
 {
+    [Obsolete("Scene class is unsupported.", true)]
     public class Scene
     {
         private const string DefaultName = "Default Scene";

@@ -26,7 +26,10 @@ namespace NuulEngine.Graphics
         private PerFrameData _perFrameConstantBuffer;
         private PerObjectData _perObjectConstantBuffer;
 
+        [Obsolete("Shaders are unique for every mesh object.")]
         private VertexShader _vertexShader;
+
+        [Obsolete("Shaders are unique for every mesh object.")]
         private PixelShader _pixelShader;
 
         private Material _currentMaterial;

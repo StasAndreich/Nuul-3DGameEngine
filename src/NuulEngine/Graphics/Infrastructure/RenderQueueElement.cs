@@ -1,9 +1,17 @@
-﻿namespace NuulEngine.Graphics.Infrastructure
+﻿using NuulEngine.Core;
+using SharpDX.Direct3D11;
+
+namespace NuulEngine.Graphics.Infrastructure
 {
-    internal class RenderQueueElement
+    /// <summary>
+    /// Stores data needed for rendering a mesh.
+    /// </summary>
+    internal sealed class RenderQueueElement
     {
-        public Mesh MeshObject { get; set; }
-        GameObj
-            Shader
+        public MeshObject MeshObject { get; set; }
+
+        public PixelShader PixelShader { get; set; }
+
+        public VertexShader VertexShader { get; set; }
     }
 }
