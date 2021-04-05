@@ -5,8 +5,11 @@
         static void Main(string[] args)
         {
             var sceneInitializer = new SceneInitializer();
-            var game = new GameCore(sceneInitializer);
-            game.Run();
+
+            using (var game = new GameCore(sceneInitializer))
+            {
+                game.Run();
+            }
         }
     }
 }

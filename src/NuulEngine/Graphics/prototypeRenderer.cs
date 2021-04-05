@@ -59,15 +59,6 @@ namespace NuulEngine.Graphics
                 _graphicsRenderer.RenderMeshObject(item.MeshObject);
             }
 
-            //for (int i = 0; i < _scene.Meshes.Count; i++)
-            //{
-            //    MeshObject mesh = _scene.Meshes[i];
-            //    _graphicsRenderer.UpdatePerObjectConstantBuffers(
-            //        mesh.GetWorldMatrix(), viewMatrix, projectionMatrix,
-            //        (mesh == _cube ? 1 : 0), mesh.ObjectType);
-            //    _graphicsRenderer.RenderMeshObject(mesh);
-            //}
-
             //_headUpDisplay.Render(_timeHelper.FPS, _timeHelper.Time, _timeHelper.DeltaT, false);
 
             _graphicsRenderer.EndRender();
