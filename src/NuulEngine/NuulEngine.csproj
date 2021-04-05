@@ -81,7 +81,7 @@
     <Compile Include="Core\GameObject.cs" />
     <Compile Include="Core\ISceneInitializer.cs" />
     <Compile Include="Core\Scene.cs" />
-    <Compile Include="Core\Utilities\GameObjectCollection.cs" />
+    <Compile Include="Core\GameObjectCollection.cs" />
     <Compile Include="Graphics\Cameras\Camera.cs" />
     <Compile Include="Graphics\Cameras\CameraType.cs" />
     <Compile Include="Graphics\Cameras\OrthographicCamera.cs" />

@@ -1,6 +1,4 @@
-﻿using NuulEngine.Core.Utils;
-
-namespace NuulEngine.Core
+﻿namespace NuulEngine.Core
 {
     public interface ISceneInitializer
     {

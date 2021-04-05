@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NuulEngine.Core.Utils
+namespace NuulEngine.Core
 {
     /// <summary>
     /// A collection of GameObject elements.
@@ -66,14 +66,14 @@ namespace NuulEngine.Core.Utils
             return false;
         }
 
-        internal void CommitRemove()
+        internal void ConfirmRemove()
         {
             _objects.RemoveAll(o => _objectsToRemove.Contains(o));
             _objectsToRemove.Clear();
 
             foreach (var @object in _objects)
             {
-                @object.ChildObjects.CommitRemove();
+                @object.ChildObjects.ConfirmRemove();
             }
         }
 
