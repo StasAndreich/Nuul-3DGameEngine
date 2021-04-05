@@ -21,6 +21,7 @@ namespace NuulEngine.Core.Components
 
         public override void CallComponent(double deltaTime)
         {
+            var M = new MeshObject()
             EngineCore.Instance.Renderer.AddToRenderQueue(_mesh);
         }
     }

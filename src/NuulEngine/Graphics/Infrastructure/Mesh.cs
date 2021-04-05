@@ -6,7 +6,7 @@ namespace NuulEngine.Graphics.Infrastructure
     internal sealed class Mesh
     {
         public Mesh(VertexData[] vertices, uint[] indices,
-            PrimitiveTopology primitiveTopology)
+            PrimitiveTopology primitiveTopology = PrimitiveTopology.TriangleList)
         {
             Vertices = vertices;
             Indices = indices;
@@ -15,11 +15,7 @@ namespace NuulEngine.Graphics.Infrastructure
 
         public uint[] Indices { get; private set; }
 
-        public int IndicesCount { get => Indices.Length; }
-
         public VertexData[] Vertices { get; private set; }
-
-        public int VerticesCount { get => Vertices.Length; }
 
         public PrimitiveTopology PrimitiveTopology { get; private set; }
     }

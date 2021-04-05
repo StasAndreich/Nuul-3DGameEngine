@@ -80,6 +80,8 @@ namespace NuulEngine.Core
             return null;
         }
 
+        // Destroy obj
+
         internal void Update(float deltaTime)
         {
             foreach (var component in _components)

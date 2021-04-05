@@ -79,6 +79,8 @@
     <Compile Include="Core\Components\MeshRenderer.cs" />
     <Compile Include="Core\EngineCore.cs" />
     <Compile Include="Core\GameObject.cs" />
+    <Compile Include="Core\Input\InputProvider.cs" />
+    <Compile Include="Core\Input\MouseKey.cs" />
     <Compile Include="Core\ISceneInitializer.cs" />
     <Compile Include="Core\Scene.cs" />
     <Compile Include="Core\GameObjectCollection.cs" />

@@ -28,14 +28,14 @@ namespace NuulEngine.Graphics.Infrastructure
                     device: device,
                     bindFlags: BindFlags.VertexBuffer,
                     data: mesh.Vertices,
-                    sizeInBytes: Utilities.SizeOf<VertexData>() * mesh.VerticesCount);
+                    sizeInBytes: Utilities.SizeOf<VertexData>() * mesh.Vertices.Length);
 
             _indicesBufferObject = SharpDX.Direct3D11.Buffer
                 .Create(
                     device: device,
                     bindFlags: BindFlags.IndexBuffer,
                     data: mesh.Indices,
-                    sizeInBytes: Utilities.SizeOf<uint>() * mesh.IndicesCount);
+                    sizeInBytes: Utilities.SizeOf<uint>() * mesh.Indices.Length);
 
             VertexBufferBinding = new VertexBufferBinding(
                 buffer: _vertexBufferObject,
